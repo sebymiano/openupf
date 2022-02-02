@@ -90,7 +90,8 @@ uint16_t calc_crc_udp6(struct pro_udp_hdr *udp_hdr, struct pro_ipv6_hdr *ip_hdr)
 
 uint16_t calc_crc_ip(struct pro_ipv4_hdr *ip_hdr)
 {
-    uint16_t  *ptr_data = (uint16_t *)ip_hdr;
+	char *ip_hdr_ptr = (char *)ip_hdr;
+    uint16_t  *ptr_data = (uint16_t *)ip_hdr_ptr;
     uint32_t  sum = 0;
     uint32_t  i, lenmax = ip_hdr->ihl << 1;
     uint16_t  checksum;

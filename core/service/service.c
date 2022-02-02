@@ -110,7 +110,7 @@ void *service_udp_server_task(void *arg)
 	}
 
 	/* socket bind interface */
-	strncpy(opt.ifr_ifrn.ifrn_name, ethname, strlen(ethname) + 1);
+	strncpy(opt.ifr_ifrn.ifrn_name, ethname, strlen(opt.ifr_ifrn.ifrn_name) + 1);
 	if (setsockopt(sdp->fd, SOL_SOCKET, SO_BINDTODEVICE,
                         (char *)&opt, sizeof(opt)) < 0) {
     	LOG(SERVER, ERR, "setsockopt fail!");
@@ -141,7 +141,7 @@ void *service_udp_server_task(void *arg)
         rq_node->data_len = recvfrom(sdp->fd, rq_node->data + sa_len, SERVICE_BUF_MAX_LEN, 0,
                         (struct sockaddr *)rq_node->data, &sa_len);
 
-        /* ÈÎºÎÇé¿öÏÂÈ¡³öÀ´µÄ½Úµã¶¼ÒªÈ¥ÉèÖÃÎªFULL×´Ì¬ */
+        /* ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ä½Úµã¶¼ÒªÈ¥ï¿½ï¿½ï¿½ï¿½ÎªFULL×´Ì¬ */
         rqueue_set_produce_flag(rq_node);
 #else
         struct sockaddr_in cli_sin;
@@ -316,7 +316,7 @@ void *service_raw_wraper(void *arg)
         rq_node->data_len = recvfrom(fd, rq_node->data,
                         srw->rq->db_size, 0, 0, 0);
 
-        /* ÈÎºÎÇé¿öÏÂÈ¡³öÀ´µÄ½Úµã¶¼ÒªÈ¥ÉèÖÃÎªFULL×´Ì¬ */
+        /* ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ä½Úµã¶¼ÒªÈ¥ï¿½ï¿½ï¿½ï¿½ÎªFULL×´Ì¬ */
         rqueue_set_produce_flag(rq_node);
 
         if (srw->buflen < 0) {
@@ -362,7 +362,7 @@ int32_t service_raw_create(struct service_raw *srw)
 	}
 
     memset((char *)&ifr, 0, sizeof(struct ifreq));
-    strncpy(ifr.ifr_name, ethname, strlen(ethname) + 1);
+    strncpy(ifr.ifr_name, ethname, strlen(ifr.ifr_name) + 1);
     memcpy(srw->ethname, ethname, strlen(ethname) + 1);
 
     /* Get interface index */

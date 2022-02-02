@@ -488,8 +488,9 @@ int comm_msg_create_channel_server(comm_msg_channel_server *setp, uint16_t port,
 
 fail_free:
 
-    if (0 < setp->sock)
+    if (0 < setp->sock) {
         close(setp->sock);
+    }
 
 	return -1;
 }
@@ -694,7 +695,7 @@ static void *comm_msg_channel_client_task(void *arg)
         LOG(COMM, RUNNING, "Client connect 0x%08x, port: %hu.", setp->remote_ips[cnt], setp->remote_port);
         setp->fd = comm_msg_connect_service(setp->remote_ips[cnt], setp->remote_port);
         if (setp->fd < 0) {
-            /* Èç¹ûÊ§°ÜÁËÏÈÁ¢¼´È·ÈÏÊÇ·ñËùÓÐÁ¬½Ó¶¼²»¿ÉÓÃ */
+            /* ï¿½ï¿½ï¿½Ê§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
             if (connect_fail_times < setp->remote_ips_num) {
                 ++connect_fail_times;
             } else {

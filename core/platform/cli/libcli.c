@@ -132,7 +132,9 @@ char *cli_command_name(struct cli_def *cli, struct cli_command *command)
     while (command)
     {
         o = name;
-        asprintf(&name, "%s%s%s", command->command, *o ? " " : "", o);
+        if (asprintf(&name, "%s%s%s", command->command, *o ? " " : "", o) == -1) {
+            printf("Error in the asprintf\n");
+        }
         command = command->parent;
         free(o);
     }
@@ -1447,7 +1449,7 @@ int cli_loop(struct cli_def *cli,int fd_in, int fd_out)
 
             #if 0
 
-            //»Ø³µ·û
+            //ï¿½Ø³ï¿½ï¿½ï¿½
             if (c == '\n') continue;
 
             if (c == '\r')
@@ -1461,7 +1463,7 @@ int cli_loop(struct cli_def *cli,int fd_in, int fd_out)
 
             if (c == '\n')
             {
-                //°´ÏÂ»Ø³µ¼üºóµÄ×Ö·û
+                //ï¿½ï¿½ï¿½Â»Ø³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
                 if (cli->state != STATE_PASSWORD && cli->state != STATE_ENABLE_PASSWORD)
                 {
                     //cli_Write(fd_out, "\r\n", 2);
@@ -1783,7 +1785,7 @@ int cli_loop(struct cli_def *cli,int fd_in, int fd_out)
                 {
                     if (cli->state != STATE_PASSWORD && cli->state != STATE_ENABLE_PASSWORD)
                     {
-                        //È¥µô»»ÐÂÐÐ
+                        //È¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                         //cli_Write(fd_out, "\r", 1);
                         show_prompt(cli, fd_out);
                     }
@@ -1972,8 +1974,8 @@ int cli_loop(struct cli_def *cli,int fd_in, int fd_out)
     }
 
 EXIT:
-    //Èç¹û²»Çå³ýÒ»ÏÂ£¬ºóÃæÍË³ö³ÌÐòµÄÊ±ºò»áÒì³££¬µ¼ÖÂ×Ó½ø³Ì±ä³É½©Ê¬½ø³Ì£¬
-    //¸¸½ø³ÌÎÞ·¨ÊÕµ½ÐÅºÅ
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Â£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó½ï¿½ï¿½Ì±ï¿½É½ï¿½Ê¬ï¿½ï¿½ï¿½Ì£ï¿½
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½Õµï¿½ï¿½Åºï¿½
     memset(cmd, 0, 4096);
 
     cli_free_history(cli);
@@ -2335,7 +2337,7 @@ int cli_no_pty_proc(struct cli_def *cli,int fd_out,char *command)
 
             #if 0
 
-            //»Ø³µ·û
+            //ï¿½Ø³ï¿½ï¿½ï¿½
             if (c == '\n') continue;
 
             if (c == '\r')
@@ -2349,7 +2351,7 @@ int cli_no_pty_proc(struct cli_def *cli,int fd_out,char *command)
 
             if (c == '\n')
             {
-                //°´ÏÂ»Ø³µ¼üºóµÄ×Ö·û
+                //ï¿½ï¿½ï¿½Â»Ø³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
                 if (cli->state != STATE_PASSWORD && cli->state != STATE_ENABLE_PASSWORD)
                 {
                     //cli_Write(fd_out, "\r\n", 2);
@@ -2671,7 +2673,7 @@ int cli_no_pty_proc(struct cli_def *cli,int fd_out,char *command)
                 {
                     if (cli->state != STATE_PASSWORD && cli->state != STATE_ENABLE_PASSWORD)
                     {
-                        //È¥µô»»ÐÂÐÐ
+                        //È¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                         //cli_Write(fd_out, "\r", 1);
                         show_prompt(cli, fd_out);
                     }
@@ -2860,8 +2862,8 @@ int cli_no_pty_proc(struct cli_def *cli,int fd_out,char *command)
     }
 
 EXIT:
-    //Èç¹û²»Çå³ýÒ»ÏÂ£¬ºóÃæÍË³ö³ÌÐòµÄÊ±ºò»áÒì³££¬µ¼ÖÂ×Ó½ø³Ì±ä³É½©Ê¬½ø³Ì£¬
-    //¸¸½ø³ÌÎÞ·¨ÊÕµ½ÐÅºÅ
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Â£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó½ï¿½ï¿½Ì±ï¿½É½ï¿½Ê¬ï¿½ï¿½ï¿½Ì£ï¿½
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½Õµï¿½ï¿½Åºï¿½
     memset(cmd, 0, 4096);
 
     cli_free_history(cli);
@@ -3373,9 +3375,9 @@ void set_input_mode(int fd)
     //SYSLOG_DEBUG("c_cflag=0x%x",stTerm.c_cflag);
     //SYSLOG_DEBUG("c_lflag=0x%x",stTerm.c_lflag);
 
-    //ÉèÖÃÎª·Ç¼Ó¹¤Ä£Ê½
+    //ï¿½ï¿½ï¿½ï¿½Îªï¿½Ç¼Ó¹ï¿½Ä£Ê½
     stTerm.c_lflag &= ~(ICANON|ECHO|ISIG);
-    //ÖÁÉÙ¶ÁÒ»¸ö×Ö·û
+    //ï¿½ï¿½ï¿½Ù¶ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½
     stTerm.c_cc[VMIN]=1;
     stTerm.c_cc[VTIME]=0;
     if(!isatty(fd))

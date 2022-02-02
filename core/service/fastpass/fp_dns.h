@@ -140,12 +140,12 @@ typedef union tag_fp_dns_flags {
 
 #pragma pack(1)
 typedef struct tag_fp_dns_header {
-    uint16_t            id;             /* ID:³¤¶ÈÎª16Î»£¬ÊÇÒ»¸öÓÃ»§·¢ËÍ²éÑ¯µÄÊ±ºò¶¨ÒåµÄËæ»úÊý */
-    fp_dns_flags        flags;          /* Flags:³¤¶È16Î» */
-    uint16_t            ques;           /* QDCount:³¤¶È16Î»£¬±¨ÎÄÇëÇó¶ÎÖÐµÄÎÊÌâ¼ÇÂ¼Êý¡£ */
-    uint16_t            answ;           /* ANCount:³¤¶È16Î»£¬±¨ÎÄ»Ø´ð¶ÎÖÐµÄ»Ø´ð¼ÇÂ¼Êý¡£ */
-    uint16_t            auth;           /* NSCOUNT :³¤¶È16Î»£¬±¨ÎÄÊÚÈ¨¶ÎÖÐµÄÊÚÈ¨¼ÇÂ¼Êý¡£ */
-    uint16_t            addrrs;         /* ARCOUNT :³¤¶È16Î»£¬±¨ÎÄ¸½¼Ó¶ÎÖÐµÄ¸½¼Ó¼ÇÂ¼Êý¡£ */
+    uint16_t            id;             /* ID:ï¿½ï¿½ï¿½ï¿½Îª16Î»ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Í²ï¿½Ñ¯ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+    fp_dns_flags        flags;          /* Flags:ï¿½ï¿½ï¿½ï¿½16Î» */
+    uint16_t            ques;           /* QDCount:ï¿½ï¿½ï¿½ï¿½16Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ */
+    uint16_t            answ;           /* ANCount:ï¿½ï¿½ï¿½ï¿½16Î»ï¿½ï¿½ï¿½ï¿½ï¿½Ä»Ø´ï¿½ï¿½ï¿½ÐµÄ»Ø´ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ */
+    uint16_t            auth;           /* NSCOUNT :ï¿½ï¿½ï¿½ï¿½16Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½È¨ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ */
+    uint16_t            addrrs;         /* ARCOUNT :ï¿½ï¿½ï¿½ï¿½16Î»ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½Ó¶ï¿½ï¿½ÐµÄ¸ï¿½ï¿½Ó¼ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ */
 } fp_dns_header;
 #pragma pack()
 
@@ -158,9 +158,9 @@ typedef struct tag_fp_dns_tail_query {
 
 #pragma pack(1)
 typedef struct tag_fp_dns_tail_response {
-    fp_dns_rr_name_point    name;           /* C0 0C ÓòÃûÖ¸Õë  */
-    uint16_t                type;           /* ²éÑ¯ÀàÐÍ */
-    uint16_t                classtype;      /* ·ÖÀà */
+    fp_dns_rr_name_point    name;           /* C0 0C ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½  */
+    uint16_t                type;           /* ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ */
+    uint16_t                classtype;      /* ï¿½ï¿½ï¿½ï¿½ */
 } fp_dns_tail_response;
 #pragma pack()
 
@@ -171,7 +171,7 @@ typedef struct tag_fp_dns_cache_node {
     uint16_t            aux_info;
     uint16_t            spare;
     comm_msg_dns_config dns_cfg;
-}fp_dns_cache_node;
+} fp_dns_cache_node;
 #pragma pack()
 
 /* Hash bucket, contains hash tree, the index is hash value of filter entry */
@@ -196,11 +196,11 @@ typedef struct  tag_fp_dns_table
 #pragma pack()
 
 
-/* ±£´æÐÅÈÎµÄDNS·þÎñÆ÷µØÖ· */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½DNSï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö· */
 #pragma pack(1)
 typedef struct tag_fp_dns_credible_entry {
     struct rb_node          cdb_node;
-    comm_msg_dns_ip         ipaddr; /* ´æ·ÅÍøÂçÐòµØÖ· */
+    comm_msg_dns_ip         ipaddr; /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö· */
     uint32_t                index;
     uint32_t                spare;
 } fp_dns_credible_entry;

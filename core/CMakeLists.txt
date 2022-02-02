@@ -22,6 +22,11 @@ target_link_libraries(${PROGRAM_NAME}
         m
 )
 
+target_compile_options(${PROGRAM_NAME} 
+    PUBLIC
+        --std=gnu89 -Wno-packed-not-aligned -Wno-unused-variable
+    )
+
 # dpdk static library needs (-Wl,--whole-archive)
 set(EXTRA_C_LIBS 
     service_${PROGRAM_NAME}

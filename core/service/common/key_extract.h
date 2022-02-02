@@ -492,8 +492,8 @@ static inline unsigned long
 PktGetIpv4Long(struct pro_ipv4_hdr *ipv4_hdr)
 {
     unsigned long *tmp;
-
-    tmp = (unsigned long *)(&ipv4_hdr->source);
+    void *tmp_ptr = (void *)(&ipv4_hdr->source);
+    tmp = (unsigned long *)(tmp_ptr);
     return (*tmp);
 }
 

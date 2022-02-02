@@ -28,7 +28,8 @@ if(${PROGRAM_NAME} MATCHES "smu")
     target_compile_options(${PROJECT_NAME} 
         PRIVATE
             ${PKG_ULFIUS_CFLAGS}
-            ${PKG_ORCANIA_CFLAGS}
+            ${PKG_ORCANIA_CFLAGS} --std=gnu89 -Wno-packed-not-aligned 
+            -Wno-unused-variable -Wno-maybe-uninitialized
     )
     
     target_link_directories(${PROJECT_NAME} 
@@ -41,6 +42,7 @@ if(${PROGRAM_NAME} MATCHES "smu")
             #${PKG_ULFIUS_LDFLAGS}
             #${PKG_ULFIUS_LIBRARIES}
             ulfius
+            pthread
             ${PKG_ORCANIA_LDFLAGS}
             ${PKG_ORCANIA_LIBRARIES}
     )
@@ -61,12 +63,13 @@ elseif(${PROGRAM_NAME} MATCHES "fpu" OR ${PROGRAM_NAME} MATCHES "lbu")
     
     target_compile_options(${PROJECT_NAME} 
         PRIVATE
-            ${PKG_DPDK_CFLAGS}
+            ${PKG_DPDK_CFLAGS} --std=gnu89 -Wno-packed-not-aligned
     )
     target_link_libraries(${PROJECT_NAME}
         PRIVATE 
             ${PKG_DPDK_LDFLAGS}
             #${PKG_DPDK_STATIC_LIBRARIES}
             ${PKG_DPDK_LIBRARIES}
+            pthread
     )
 endif()

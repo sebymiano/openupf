@@ -27,12 +27,13 @@
 void set_input_mode(int fd)
 {
 
-    struct termios stTerm;
+    struct termios stTerm;
+
     tcgetattr(fd,&stTerm);
 
-    //设置为非加工模式
+    //锟斤拷锟斤拷为锟角加癸拷模式
     stTerm.c_lflag &= ~(ICANON|ECHO|ISIG);
-    //至少读一个字符
+    //锟斤拷锟劫讹拷一锟斤拷锟街凤拷
     stTerm.c_cc[VMIN]=1;
     stTerm.c_cc[VTIME]=0;
     if(!isatty(fd))
@@ -149,13 +150,17 @@ int main(int argc,char *argv[])
                 printf("recv() form cli server error\n");
                 return -1;
             }
-            write(STDOUT_FILENO,buf,num);
+            if (write(STDOUT_FILENO,buf,num) == -1) {
+                printf("write() failed for STDOUT_FILENO\n");
+            }
         }
 
         if(FD_ISSET (STDIN_FILENO, &rset))
         {
             unsigned char c;
-            read(STDIN_FILENO, &c, 1);
+            if (read(STDIN_FILENO, &c, 1) == -1) {
+                printf("Read failed for STDOUT_FILENO\n");
+            }
             if((num=write(sockfd,&c,1))==-1)
             {
                 printf("send() to cli server error\n");

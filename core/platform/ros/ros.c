@@ -141,11 +141,11 @@ uint8_t ros_parse_cpuset_cpus(uint8_t cpus[])
     return ret_cnt;
 }
 
-/* »ñÈ¡µ±Ç°º¯Êý(µ÷ÓÃEOS_GetCurrentFpµÄº¯Êý)µÄº¯ÊýÕ»»ùÖ· */
+/* ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½EOS_GetCurrentFpï¿½Äºï¿½ï¿½ï¿½)ï¿½Äºï¿½ï¿½ï¿½Õ»ï¿½ï¿½Ö· */
 void EOS_GetCurrentFp()
 {
-    /* Õâ¸öº¯ÊýµÄÕ»³ýÁË±£´ærbpµ½ rax¼Ä´æÆ÷£¬²»±£´æÆäËû¼Ä´æÆ÷*/
-    /* ËùÒÔrbp¾ÍÊÇÖ¸ÏòFPµÄÖ¸Õë£¬°ÑËüÖ¸ÏòµÄÖµ´«¸ørax·µ»Ø */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½Ë±ï¿½ï¿½ï¿½rbpï¿½ï¿½ raxï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½*/
+    /* ï¿½ï¿½ï¿½ï¿½rbpï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½FPï¿½ï¿½Ö¸ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½raxï¿½ï¿½ï¿½ï¿½ */
 	asm("mov	(%rsp), %rax");
 
 }
@@ -186,7 +186,9 @@ int ros_read_from_shell_cmd(char *result, size_t sizeof_result, const char *comm
     if ((fp = popen(command, "r")) == NULL) {
         return -1;
     }
-    fread(result, 1, sizeof_result, fp);
+    if (fread(result, 1, sizeof_result, fp) != sizeof_result) {
+        printf("fread didn't read all bytes\n");
+    }
 
     if ((pnt = strrchr(result, '\n')) != NULL) {
         *pnt = 0;
