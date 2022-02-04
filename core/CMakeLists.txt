@@ -34,5 +34,4 @@ set(EXTRA_C_LIBS
 )
 
 target_link_libraries(${PROGRAM_NAME} PRIVATE 
-    ${EXTRA_C_LIBS}
-    ${UPF_INSTALL_PATH}/lib/libmicrohttpd.so)
+    ${EXTRA_C_LIBS})

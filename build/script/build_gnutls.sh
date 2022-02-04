@@ -7,11 +7,11 @@ UPF_TOP_PATH=$UPF_BUILD_PATH/..
 UPF_INSTALL_PATH=$UPF_TOP_PATH/install
 source $UPF_BUILD_SCRIPT_PATH/build_val.sh
 
-MICROHTTPD_LIB_DIR=$UPF_TOP_PATH/libs/microhttpd
-MICROHTTPD_TAR_NAME=libmicrohttpd-latest.tar.gz
-MICROHTTPD_URL=https://ftpmirror.gnu.org/libmicrohttpd/${MICROHTTPD_TAR_NAME}
+GNUTLS_LIB_DIR=$UPF_TOP_PATH/libs/gnutls
+GNUTLS_TAR_NAME=gnutls-3.6.16.tar.xz
+GNUTLS_URL=https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/${GNUTLS_TAR_NAME}
 
-MICROHTTPD_LIB_PATH=$UPF_INSTALL_PATH/lib/libmicrohttpd.so
+GNUTLS_LIB_PATH=$UPF_INSTALL_PATH/lib/libgnutls.so
 
 help()
 {
@@ -32,14 +32,14 @@ fi
 
 LIBS_DOWNLOAD()
 {    
-    if [ ! -d $MICROHTTPD_LIB_DIR ]
+    if [ ! -d $GNUTLS_LIB_DIR ]
     then
         RET=-1
         COUNT=0
         
         while [ $RET -ne 0 ]
         do
-            wget ${MICROHTTPD_URL} -P $MICROHTTPD_LIB_DIR
+            wget ${GNUTLS_URL} -P $GNUTLS_LIB_DIR
             RET=$?
             COUNT=$(($COUNT+1))
             
@@ -53,13 +53,13 @@ LIBS_DOWNLOAD()
 
 LIBS_BUILD()
 {
-    if [ ! -f $MICROHTTPD_LIB_PATH ]
+    if [ ! -f $GNUTLS_LIB_PATH ]
     then
         pushd .
-        cd $MICROHTTPD_LIB_DIR
-        tar -zxvf ${MICROHTTPD_TAR_NAME} --strip-components=1
-        rm ${MICROHTTPD_TAR_NAME}
-        ./configure --prefix=$UPF_INSTALL_PATH
+        cd $GNUTLS_LIB_DIR
+        tar -xvf ${GNUTLS_TAR_NAME} --strip-components=1
+        rm ${GNUTLS_TAR_NAME}
+        ./configure --prefix=$UPF_INSTALL_PATH --with-included-unistring
         make -j$(getconf _NPROCESSORS_ONLN)
         sudo make install
         popd
@@ -68,10 +68,10 @@ LIBS_BUILD()
 
 if [[ $1 == "clean"  ]]
 then
-    if [ -d $MICROHTTPD_LIB_DIR ]
+    if [ -d $GNUTLS_LIB_DIR ]
     then
-        make uninstall -C $MICROHTTPD_LIB_DIR
-        make clean -C $MICROHTTPD_LIB_DIR
+        make uninstall -C $GNUTLS_LIB_DIR
+        make clean -C $GNUTLS_LIB_DIR
     fi
 elif [[ $1 == "download" ]]
 then
@@ -81,7 +81,7 @@ else
     mkdir -p $UPF_INSTALL_PATH/include
     LIBS_DOWNLOAD
     LIBS_BUILD
-    if [ ! -f $UPF_INSTALL_PATH/lib/libmicrohttpd.so ]; then
+    if [ ! -f $UPF_INSTALL_PATH/lib/libgnutls.so ]; then
         exit -1
     fi
 fi

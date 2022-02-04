@@ -24,10 +24,11 @@ help()
     exit 0
 }
 
-if [ "$1" == "help" ] || [ "$1" == "?" ]
-then
-    help  $0
-    exit 0
+if [ -n "$1" ]; then
+    if [ "$1" == "help" ] || [ "$1" == "?" ]; then
+        help  $0
+        exit 0
+    fi
 fi
 
 if [ `whoami` != "root" ];then
@@ -51,7 +52,8 @@ RUNNING_DOCKER=`docker ps -f name=lbu | awk 'NR==2{print \$NF}'`
 if [ "${RUNNING_DOCKER}" != "lbu" ]; then
 docker run -tid --privileged --cpuset-cpus="$UPF_LBU_CPUS" -e "UPF_RUNCONFIG=/opt/upf/config/lbu/lbu_docker.ini" -e "PATH=$PATH:/opt/upf/bin" --net=host \
                                 -w "/opt/upf" \
-                                -e "LD_LIBRARY_PATH=/opt/upf/lib" \
+                                --mount type=bind,source=/usr/lib,target=/usr/local/lib,readonly \
+                                -e "LD_LIBRARY_PATH=/opt/upf/lib;/usr/local/lib" \
                                 -e "UPF_LBU_EXT_DEV=$UPF_LBU_EXT_DEV" \
                                 -e "UPF_LBU_INT_DEV=$UPF_LBU_INT_DEV" \
                                 -e "DPDK_PCIDEVICE=UPF_LBU_EXT_DEV,UPF_LBU_INT_DEV" \
@@ -60,14 +62,15 @@ docker run -tid --privileged --cpuset-cpus="$UPF_LBU_CPUS" -e "UPF_RUNCONFIG=/op
                                 -v $UPF_LIB_PATH:/opt/upf/lib \
                                 -v $UPF_SCRIPT_PATH:/opt/upf/script \
                                 -v /dev/hugepages:/dev/hugepages \
-                                --name lbu air5005/upu /bin/bash
+                                --name lbu sebymiano92/upf-dpdk /bin/bash
 fi
 
 RUNNING_DOCKER=`docker ps -f name=fpu | awk 'NR==2{print \$NF}'`
 if [ "${RUNNING_DOCKER}" != "fpu" ]; then
 docker run -tid --privileged --cpuset-cpus="$UPF_FPU_CPUS" -e "UPF_RUNCONFIG=/opt/upf/config/fpu/fpu_dpdk_docker.ini" -e "PATH=$PATH:/opt/upf/bin" --net=host \
                                  -w "/opt/upf" \
-                                -e "LD_LIBRARY_PATH=/opt/upf/lib" \
+                                --mount type=bind,source=/usr/lib,target=/usr/local/lib,readonly \
+                                -e "LD_LIBRARY_PATH=/opt/upf/lib;/usr/local/lib" \
                                 -e "UPF_FPU_DEV=$UPF_FPU_DEV" \
                                 -e "DPDK_PCIDEVICE=UPF_FPU_DEV" \
                                 -v $UPF_CONFIG_PATH:/opt/upf/config \
@@ -75,16 +78,18 @@ docker run -tid --privileged --cpuset-cpus="$UPF_FPU_CPUS" -e "UPF_RUNCONFIG=/op
                                 -v $UPF_LIB_PATH:/opt/upf/lib \
                                 -v $UPF_SCRIPT_PATH:/opt/upf/script \
                                 -v /dev/hugepages:/dev/hugepages \
-                                --name fpu air5005/upu /bin/bash
+                                --name fpu sebymiano92/upf-dpdk /bin/bash
 fi
 
 RUNNING_DOCKER=`docker ps -f name=smu | awk 'NR==2{print \$NF}'`
 if [ "${RUNNING_DOCKER}" != "smu" ]; then
 docker run -tid --cap-add ALL --cpuset-cpus="$UPF_SMU_CPUS" -e "UPF_RUNCONFIG=/opt/upf/config/smu/smu_docker.ini" -e "PATH=$PATH:/opt/upf/bin" --net=host \
                                 -w "/opt/upf" \
+                                --mount type=bind,source=/usr/lib,target=/usr/local/lib,readonly \
+                                -e "LD_LIBRARY_PATH=/opt/upf/lib;/usr/local/lib" \
                                 -v $UPF_CONFIG_PATH:/opt/upf/config \
                                 -v $UPF_BIN_PATH:/opt/upf/bin \
                                 -v $UPF_LIB_PATH:/opt/upf/lib \
                                 -v $UPF_SCRIPT_PATH:/opt/upf/script \
-                                --name smu air5005/upu /bin/bash
+                                --name smu sebymiano92/upf-dpdk /bin/bash
 fi

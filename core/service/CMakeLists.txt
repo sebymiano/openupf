@@ -43,7 +43,6 @@ if(${PROGRAM_NAME} MATCHES "smu")
             #${PKG_ULFIUS_LIBRARIES}
             ulfius
             pthread
-            ${UPF_INSTALL_PATH}/lib/libmicrohttpd.so
             ${PKG_ORCANIA_LDFLAGS}
             ${PKG_ORCANIA_LIBRARIES}
     )
@@ -71,7 +70,6 @@ elseif(${PROGRAM_NAME} MATCHES "fpu" OR ${PROGRAM_NAME} MATCHES "lbu")
             ${PKG_DPDK_LDFLAGS}
             #${PKG_DPDK_STATIC_LIBRARIES}
             ${PKG_DPDK_LIBRARIES}
-            ${UPF_INSTALL_PATH}/lib/libmicrohttpd.so
             pthread
             gnutls
     )
