@@ -4,3 +4,6 @@ lbu
 fpu
 stub
 build_stub.sh
+.cmake
+CMakeFiles
+CMakeCache.txt

@@ -1,2 +1,6 @@
 /dpdk-stable-19.11.1/x86_64-native-linuxapp-gcc
 /prometheus/data
+dpdk/
+orcania/
+microhttpd/
+ulfius/

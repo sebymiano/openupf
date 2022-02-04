@@ -14,11 +14,13 @@ fi
 ${UPF_BUILD_SCRIPT_DIR}/build_smu.sh clean
 ${UPF_BUILD_SCRIPT_DIR}/build_lbu.sh clean
 ${UPF_BUILD_SCRIPT_DIR}/build_ulfius.sh clean
+${UPF_BUILD_SCRIPT_DIR}/build_microhttpd.sh clean
 rm -rf ${UPF_BUILD_DIR}/dpdk
 rm -rf ${UPF_TOP_DIR}/install/bin
 rm -rf ${UPF_TOP_DIR}/install/include
 rm -rf ${UPF_TOP_DIR}/install/lib
 rm -rf ${UPF_TOP_DIR}/install/config
+rm -rf ${UPF_TOP_DIR}/install/share
 
 # Delete downloaded dependent Libraries
 if [ -d $UPF_TOP_DIR/libs/dpdk ]

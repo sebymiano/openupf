@@ -5,4 +5,5 @@ config/*
 test
 .redis_data
 dpdk
+share
 script/start_stub.sh

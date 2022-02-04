@@ -20,6 +20,7 @@ target_link_libraries(${PROGRAM_NAME}
         edit
         tinfo
         m
+        gnutls
 )
 
 target_compile_options(${PROGRAM_NAME} 
@@ -32,4 +33,6 @@ set(EXTRA_C_LIBS
     service_${PROGRAM_NAME}
 )
 
-target_link_libraries(${PROGRAM_NAME} PRIVATE ${EXTRA_C_LIBS})
+target_link_libraries(${PROGRAM_NAME} PRIVATE 
+    ${EXTRA_C_LIBS}
+    ${UPF_INSTALL_PATH}/lib/libmicrohttpd.so)

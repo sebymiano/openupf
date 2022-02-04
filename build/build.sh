@@ -18,6 +18,12 @@ if [ $? -ne 0 ]; then
     exit -1
 fi
 
+$UPF_BUILD_SCRIPT_DIR/build_microhttpd.sh
+if [ $? -ne 0 ]; then
+    echo -e "--------------------- Build microhttpd failed! ---------------------\n\n"
+    exit -1
+fi
+
 $UPF_BUILD_SCRIPT_DIR/build_fpu.sh all
 if [ $? -ne 0 ] || [ ! -f $UPF_INSTALL_DIR/bin/fpu ]; then
     echo -e "--------------------- Build fpu failed! --------------------\n\n"

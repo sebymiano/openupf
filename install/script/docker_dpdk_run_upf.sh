@@ -5,15 +5,15 @@ UPF_BIN_PATH=$UPF_INSTALL_PATH/build/bin
 UPF_CONFIG_PATH=$UPF_INSTALL_PATH/config
 
 # CPUs of docker binding
-UPF_LBU_CPUS=0-2
-UPF_SMU_CPUS=3
+UPF_LBU_CPUS=0-4
+UPF_SMU_CPUS=5
 # The number of 'UPF_FPU_CPUS - 1' needs to be equal to the number of 'UPF_FPU_DEV'
-UPF_FPU_CPUS=4-5
+UPF_FPU_CPUS=6-10
 
 # Program bound network port, Separate with commas, e.g. "04:10.3,04:11.1"
-UPF_LBU_EXT_DEV="04:00.0"
-UPF_LBU_INT_DEV="04:10.1"
-UPF_FPU_DEV="04:10.3"
+UPF_LBU_EXT_DEV="89:02.1"
+UPF_LBU_INT_DEV="89:0a.0"
+UPF_FPU_DEV="89:0a.1"
 
 help()
 {
