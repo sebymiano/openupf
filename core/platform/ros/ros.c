@@ -187,8 +187,9 @@ int ros_read_from_shell_cmd(char *result, size_t sizeof_result, const char *comm
         return -1;
     }
     if (fread(result, 1, sizeof_result, fp) != sizeof_result) {
-        printf("fread didn't read all bytes\n");
+        goto after;
     }
+after:;
 
     if ((pnt = strrchr(result, '\n')) != NULL) {
         *pnt = 0;

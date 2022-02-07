@@ -1094,25 +1094,32 @@ void *Dpdk_LibTask(void *arg)
     argv[argc++] = "/opt/upf/lib/"; /* It's related to docker's workspace */
 
     /* Multiprocess */
-    argv[argc++] = "--proc-type=primary";
+    argv[argc++] = "--proc-type";
+    argv[argc++] = "auto";
 
     ros_memset(mul_proc_str, 0, sizeof(mul_proc_str));
+    argv[argc++] = "--file-prefix";
 #if (defined(PRODUCT_IS_fpu))
-    sprintf(mul_proc_str, "--file-prefix=.upf_fpu_cfg_%s", dpdk_cfg.dev[0]);
+    sprintf(mul_proc_str, ".upf_fpu_cfg_%s", dpdk_cfg.dev[0]);
 #elif (defined(PRODUCT_IS_lbu))
-    sprintf(mul_proc_str, "--file-prefix=.upf_lbu_cfg_%s", dpdk_cfg.dev[0]);
+    sprintf(mul_proc_str, ".upf_lbu_cfg_%s", dpdk_cfg.dev[0]);
 #endif
     argv[argc++] = mul_proc_str;
+
+    argv[argc++] = "--log-level";
+    argv[argc++] = "lib.eal:debug";
 
     force_quit = 0;
 
     /* init EAL */
     ret = rte_eal_init(argc, (char **)argv);
     if (ret < 0) {
-        LOG(SERVER, ERR, "Invalid EAL parameters!");
+        LOG(SERVER, ERR, "Invalid EAL parameters! (%s)", rte_strerror(rte_errno));
         Dpdk_SetInitStat(EN_DPDK_INIT_STAT_FAIL);
         return G_NULL;
     }
+
+    LOG(SERVER, ERR, "rte_eal_init successfull");
 
     /* rte_eal_init will close the file description word of syslog, which needs to be reopened */
     openlog("UPF", LOG_CONS, LOG_USER);

@@ -336,20 +336,27 @@ struct cli_command *cli_register_command(struct cli_def *cli,
     int privilege, int mode, char *help)
 {
     struct cli_command *c, *p;
-
     if (!command) return NULL;
-    if (!(c = calloc(sizeof(struct cli_command), 1))) return NULL;
+    if (!(c = calloc(1, sizeof(struct cli_command)))) return NULL;
 
     c->callback = callback;
     c->next = NULL;
-    if (!(c->command = strdup(command)))
+    c->command = (char *)calloc(strlen(command) + 1, sizeof(char));
+    if (!c->command) {
         return NULL;
+    }
+    strcpy(c->command, command);
+    
     c->parent = parent;
     c->privilege = privilege;
     c->mode = mode;
-    if (help)
-        if (!(c->help = strdup(help)))
+    if (help) {
+        c->help = (char *)calloc(strlen(help) + 1, sizeof(char));
+        if (!c->help) {
             return NULL;
+        }
+        strcpy(c->help, help);
+    }
 
     if (parent)
     {
@@ -538,11 +545,11 @@ struct cli_def *cli_lib_init()
     struct cli_def *cli;
     struct cli_command *c;
 
-    if (!(cli = calloc(sizeof(struct cli_def), 1)))
+    if (!(cli = calloc(1, sizeof(struct cli_def))))
         return 0;
 
     cli->buf_size = 1024;
-    if (!(cli->buffer = calloc(cli->buf_size, 1)))
+    if (!(cli->buffer = calloc(1, cli->buf_size)))
     {
         free_z(cli);
         return 0;
@@ -550,6 +557,7 @@ struct cli_def *cli_lib_init()
 
     cli_register_command(cli, 0, "help", cli_int_help, PRIVILEGE_UNPRIVILEGED, MODE_ANY, "Show available commands");
     cli_register_command(cli, 0, "quit", cli_int_quit, PRIVILEGE_UNPRIVILEGED, MODE_ANY, "Disconnect");
+
     //cli_register_command(cli, 0, "logout", cli_int_quit, PRIVILEGE_UNPRIVILEGED, MODE_ANY, "Disconnect");
     cli_register_command(cli, 0, "exit", cli_int_exit, PRIVILEGE_UNPRIVILEGED, MODE_ANY, "Exit from current mode");
     cli_register_command(cli, 0, "history", cli_int_history, PRIVILEGE_UNPRIVILEGED, MODE_ANY, "Show a list of previously run commands");
@@ -567,6 +575,7 @@ struct cli_def *cli_lib_init()
     // Default to 1 second timeout intervals
     cli->timeout_tm.tv_sec = 1;
     cli->timeout_tm.tv_usec = 0;
+
     return cli;
 }
 
@@ -926,7 +935,7 @@ static int cli_find_command(struct cli_def *cli, struct cli_command *commands, i
                     cli_error(cli, "Ambiguous filter \"%s\" (begin, between)", argv[0]);
                     return CLI_ERROR;
                 }
-                *filt = calloc(sizeof(struct cli_filter), 1);
+                *filt = calloc(1, sizeof(struct cli_filter));
 
                 if (!strncmp("include", argv[0], len) ||
                     !strncmp("exclude", argv[0], len) ||
@@ -3103,7 +3112,7 @@ int cli_match_filter_init(struct cli_def *cli, int argc, char **argv, struct cli
     }
 
     filt->filter = cli_match_filter;
-    filt->data = state = calloc(sizeof(struct cli_match_filter_state), 1);
+    filt->data = state = calloc(1, sizeof(struct cli_match_filter_state));
 
     if (argv[0][0] == 'i' || // include/exclude
         (argv[0][0] == 'e' && argv[0][1] == 'x'))
@@ -3247,7 +3256,7 @@ int cli_range_filter_init(struct cli_def *cli, int argc, char **argv, struct cli
     }
 
     filt->filter = cli_range_filter;
-    filt->data = state = calloc(sizeof(struct cli_range_filter_state), 1);
+    filt->data = state = calloc(1, sizeof(struct cli_range_filter_state));
 
     state->from = from;
     state->to = to;
@@ -3292,7 +3301,7 @@ int cli_count_filter_init(struct cli_def *cli, int argc, UNUSED(char **argv), st
     }
 
     filt->filter = cli_count_filter;
-    if (!(filt->data = calloc(sizeof(int), 1)))
+    if (!(filt->data = calloc(1, sizeof(int))))
         return CLI_ERROR;
 
     return CLI_OK;

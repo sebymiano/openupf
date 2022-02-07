@@ -8,7 +8,7 @@ UPF_CONFIG_PATH=$UPF_INSTALL_PATH/config
 UPF_LBU_CPUS=0-4
 UPF_SMU_CPUS=5
 # The number of 'UPF_FPU_CPUS - 1' needs to be equal to the number of 'UPF_FPU_DEV'
-UPF_FPU_CPUS=6-10
+UPF_FPU_CPUS=6-7
 
 # Program bound network port, Separate with commas, e.g. "04:10.3,04:11.1"
 UPF_LBU_EXT_DEV="89:02.1"
@@ -62,7 +62,7 @@ docker run -tid --privileged --cpuset-cpus="$UPF_LBU_CPUS" -e "UPF_RUNCONFIG=/op
                                 -v $UPF_LIB_PATH:/opt/upf/lib \
                                 -v $UPF_SCRIPT_PATH:/opt/upf/script \
                                 -v /dev/hugepages:/dev/hugepages \
-                                --name lbu sebymiano92/upf-dpdk /bin/bash
+                                --name lbu sebymiano92/openupf-dpdk /bin/bash
 fi
 
 RUNNING_DOCKER=`docker ps -f name=fpu | awk 'NR==2{print \$NF}'`
@@ -78,7 +78,7 @@ docker run -tid --privileged --cpuset-cpus="$UPF_FPU_CPUS" -e "UPF_RUNCONFIG=/op
                                 -v $UPF_LIB_PATH:/opt/upf/lib \
                                 -v $UPF_SCRIPT_PATH:/opt/upf/script \
                                 -v /dev/hugepages:/dev/hugepages \
-                                --name fpu sebymiano92/upf-dpdk /bin/bash
+                                --name fpu sebymiano92/openupf-dpdk /bin/bash
 fi
 
 RUNNING_DOCKER=`docker ps -f name=smu | awk 'NR==2{print \$NF}'`
@@ -91,5 +91,5 @@ docker run -tid --cap-add ALL --cpuset-cpus="$UPF_SMU_CPUS" -e "UPF_RUNCONFIG=/o
                                 -v $UPF_BIN_PATH:/opt/upf/bin \
                                 -v $UPF_LIB_PATH:/opt/upf/lib \
                                 -v $UPF_SCRIPT_PATH:/opt/upf/script \
-                                --name smu sebymiano92/upf-dpdk /bin/bash
+                                --name smu sebymiano92/openupf-dpdk /bin/bash
 fi

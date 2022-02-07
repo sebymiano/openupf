@@ -362,12 +362,16 @@ uint64_t cli_init(void)
     int ret;
     pthread_t thread_id;
 
+    printf("inside cli_init\n");
+
     if(g_cli)
     {
         return 0;
     }
 
     g_cli = cli_lib_init();
+
+    printf("cli_lib_init success\n");
     g_cli->iIsPtyCmd = G_NO;
     g_cli->enCliLaguage = EN_CLI_LANGUAGE_CHS;
     g_cli->iOutSocket = 0;
@@ -380,21 +384,26 @@ uint64_t cli_init(void)
     cli_regular_interval(g_cli, 5); // Defaults to 1 second
     cli_set_idle_timeout(g_cli, 0); // 60 second idle timeout
     //cli_register_command(cli, NULL, "exit", cmd_config_int_exit,PRIVILEGE_PRIVILEGED, MODE_CONFIG_INT,"Exit from interface configuration");
-    //¹Ø±ÕÃÜÂëÑéÖ¤
+    //ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤
     //cli_set_auth_callback(cli, check_auth);
-    //¹Ø±ÕÌØÈ¨Ä£Ê½
+    //ï¿½Ø±ï¿½ï¿½ï¿½È¨Ä£Ê½
     //cli_set_enable_callback(cli, check_enable);
 
     //cli_checkalive(cli,cli_CheckAlive);
+    printf("cli_lib_init success1\n");
 
     //cli_set_error_callback(cli,(void*)cli_err);
 	cmd_register(g_cli,&mRootCmdNode,1,NULL);
+
+    printf("before pthread_create\n");
 
     ret = pthread_create(&thread_id, NULL, cli_task, NULL);
     if (ret != 0) {
         LOG(CLI, ERR, "pthread_create fail ");
         return G_FAILURE;
     }
+
+    printf("after pthread_create\n");
 
     return G_SUCCESS;
 }

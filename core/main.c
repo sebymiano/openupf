@@ -62,9 +62,12 @@ int main(int argc, char **argv)
         printf("service_init failed.\n");
         return 1;
     }
+    printf("service_init success.\n");
     pcf_conf_free(conf);
+    printf("pcf_conf_free success.\n");
 
     cli_init();
+    printf("cli_init success.\n");
 
     for (;;) {
         sleep(3600);
